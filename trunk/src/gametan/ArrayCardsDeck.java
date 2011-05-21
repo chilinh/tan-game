@@ -13,21 +13,27 @@ import java.util.Collections;
 public class ArrayCardsDeck extends ArrayCards {
 
     public ArrayCardsDeck() {
+	super();
         for (int i = 0; i < 52; i++) {
-            this.arrCards.add(new Cards(i));
+	    this.arrCards.add(new Card(i));
         }
     }
     
-    public void RandomArray() {
+    public void randomArray() {
         Collections.shuffle(this.arrCards);
     }
     
-    public void MarkSpecial(Cards card) {
-        int type = card.getIdCard()/13;
-        for (Cards cards : this.arrCards) {
-            if (cards.getIdCard()/13 == type) {
+    public void markSpecial(Card card) {
+        for (Card cards : this.arrCards) {
+            if (cards.isSameType(card)) {
                 cards.setSpecial(true);
             }
         }
+    }
+    
+    public Card getSpecialRep() {
+	if (this.arrCards.isEmpty())
+	    return null;
+	return this.arrCards.get(0);
     }
 }

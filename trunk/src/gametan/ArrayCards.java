@@ -5,6 +5,8 @@
 package gametan;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  *
@@ -13,44 +15,72 @@ import java.util.ArrayList;
 public class ArrayCards {
 
     public ArrayCards() {
+	this.arrCards = new ArrayList<Card>();
     }
 
-    public ArrayCards(ArrayList<Cards> arrCards) {
+    public ArrayCards(ArrayList<Card> arrCards) {
         this.arrCards = arrCards;
     }
-    
-    public void AddCards(ArrayList<Cards> arrCards) {
-        for (Cards cards : arrCards) {
-            this.arrCards.add(cards);
+ 
+    public void addCards(ArrayList<Card> arrayCards) {
+        for (int i = 0; i < arrayCards.size(); i++) {
+            this.arrCards.add(arrayCards.get(i));
         }
     }
     
-    public Cards GetCards(int idCards) {
-        for (Cards card : this.arrCards) {
-            if (card.getIdCard() == idCards) {
-                this.arrCards.remove(card);
-                return card;
-            }
-        }
-        return null;
+    public void addCard(Card card) {
+	this.arrCards.add(card);
     }
     
-    public int GetNumCards() {
+    public void sort() {
+	Collections.sort(this.arrCards);
+    }
+    
+    public Card takeCard() {
+        if (this.arrCards.isEmpty())
+	    return null;
+	Card card = this.arrCards.get(this.arrCards.size()-1);
+	this.arrCards.remove(card);
+	return card;
+    }
+    
+    public Card takeCard(int idCard) {
+        Card card = this.arrCards.get(idCard);
+	this.arrCards.remove(card);
+	return card;
+    }
+    
+    public Card getCard(int id) {
+	if (id >= this.arrCards.size() || id < 0)
+	    return null;
+	return this.arrCards.get(id);
+    }
+    
+    public int findCard(Card card) {
+        return this.arrCards.indexOf(card);
+    }
+    
+    public int getNumCards() {
         return this.arrCards.size();
     }
     
-    public int GetNumNormCards() {
+    public int getNumNormCards() {
         int sum = 0;
-        for (Cards card : this.arrCards) {
+        for (Card card : this.arrCards) {
             if (card.isSpecial()) continue;
             sum++;
         }
         return sum;
     }
     
-    public boolean IsEmpty() {
+    public boolean isEmpty() {
         return this.arrCards.isEmpty();
     }
     
-    protected ArrayList<Cards> arrCards;
+    protected ArrayList<Card> arrCards;
+
+    @Override
+    public String toString() {
+	return Arrays.toString(this.arrCards.toArray());
+    }
 }
