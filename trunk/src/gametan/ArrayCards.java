@@ -4,83 +4,84 @@
  */
 package gametan;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 /**
  *
  * @author linh
  */
-public class ArrayCards {
-
+public class ArrayCards extends Drawing {
+    
+    public static final Card back = new Card(52);
+    
     public ArrayCards() {
-	this.arrCards = new ArrayList<Card>();
+        this.arrCards = new ArrayList<Card>();
+        numCards = 0;
     }
-
-    public ArrayCards(ArrayList<Card> arrCards) {
-        this.arrCards = arrCards;
-    }
- 
-    public void addCards(ArrayList<Card> arrayCards) {
-        for (int i = 0; i < arrayCards.size(); i++) {
-            this.arrCards.add(arrayCards.get(i));
-        }
-    }
+    
+    // Addition method
     
     public void addCard(Card card) {
-	this.arrCards.add(card);
-    }
-    
-    public void sort() {
-	Collections.sort(this.arrCards);
+	arrCards.add(card);
+        card.setShow(show);
+        card.setShowHelp(showHelp);
+        card.setVertical(vertical);
+        numCards++;
     }
     
     public Card takeCard() {
-        if (this.arrCards.isEmpty())
-	    return null;
-	Card card = this.arrCards.get(this.arrCards.size()-1);
-	this.arrCards.remove(card);
-	return card;
-    }
-    
-    public Card takeCard(int idCard) {
-        Card card = this.arrCards.get(idCard);
-	this.arrCards.remove(card);
+        if (arrCards.isEmpty()) return null;
+	Card card = arrCards.get(arrCards.size()-1);
+	arrCards.remove(card);
+        numCards--;
 	return card;
     }
     
     public Card getCard(int id) {
-	if (id >= this.arrCards.size() || id < 0)
-	    return null;
-	return this.arrCards.get(id);
-    }
-    
-    public int findCard(Card card) {
-        return this.arrCards.indexOf(card);
+	return arrCards.get(id);
     }
     
     public int getNumCards() {
-        return this.arrCards.size();
-    }
-    
-    public int getNumNormCards() {
-        int sum = 0;
-        for (Card card : this.arrCards) {
-            if (card.isSpecial()) continue;
-            sum++;
-        }
-        return sum;
+        return numCards;
     }
     
     public boolean isEmpty() {
-        return this.arrCards.isEmpty();
+        return arrCards.isEmpty();
+    }
+    
+    public void clear() {
+        numCards = 0;
+        arrCards.clear();
     }
     
     protected ArrayList<Card> arrCards;
+    protected int numCards;
+    
+    @Override
+    public void setShow(boolean show) {
+        super.setShow(show);
+        for (Card card : arrCards) {
+            card.setShow(show);
+        }
+    }
 
     @Override
-    public String toString() {
-	return Arrays.toString(this.arrCards.toArray());
+    public void setVertical(boolean vertical) {
+        super.setVertical(vertical);
+        for (Card card : arrCards) {
+            card.setVertical(vertical);
+        }
     }
+
+    @Override
+    protected void calculate() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
 }
